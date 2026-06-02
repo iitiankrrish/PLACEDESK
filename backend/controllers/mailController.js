@@ -18,7 +18,7 @@ const mailController = {
       res.status(200).json(response.data);
     } catch (error) {
       console.error(
-        "❌ AI ERROR:",
+        " AI ERROR:",
         error.response?.status,
         error.response?.data || error.message,
       );
