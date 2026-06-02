@@ -1,36 +1,39 @@
 const nodemailer = require('nodemailer');
 const dotenv = require('dotenv');
 dotenv.config();
-
 const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,        
-    port: parseInt(process.env.EMAIL_PORT || '587', 10), 
-    secure: process.env.EMAIL_SECURE === 'true', 
+    service: 'gmail', 
     auth: {
-        user: process.env.EMAIL_USER,    
-        pass: process.env.EMAIL_PASS     
+        user: process.env.EMAIL_USER,
+        pass: process.env.EMAIL_PASS
     },
+    pool: true, 
+    maxConnections: 5,
+    connectionTimeout: 20000, 
+    greetingTimeout: 20000,
+    socketTimeout: 20000,
     tls: {
-        rejectUnauthorized: false 
-    },
-    connectionTimeout: 10000,
+        rejectUnauthorized: false
+    }
 });
 
 const emailService = {
     sendMail: async (to, subject, htmlBody, from = process.env.EMAIL_USER) => {
         try {
             const mailOptions = {
-                from: from,
+                from: `"IITR Placement Cell" <${from}>`, 
                 to: to,
                 subject: subject,
                 html: htmlBody
             };
+            
+            console.log(`[SMTP] Attempting to send mail to ${to}...`);
             const info = await transporter.sendMail(mailOptions);
-            console.log('Email sent: %s', info.messageId);
+            console.log('[SMTP] Email sent: %s', info.messageId);
             return info;
         } catch (error) {
-            console.error('Error sending email:', error);
-            throw new Error(`Failed to send email to ${to}: ${error.message}`);
+            console.error('[SMTP] SEND ERROR:', error.message);
+            throw new Error(`SMTP Connection Failed: ${error.message}`);
         }
     }
 };
