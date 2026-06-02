@@ -1,0 +1,11 @@
+const express = require("express");
+const router = express.Router();
+const mailController = require("../controllers/mailController");
+router.post("/fetch-emails", mailController.fetchAndStoreEmails);
+router.post("/send-mail", mailController.sendMail);
+router.post("/generate-mail-content", mailController.generateMailContent);
+router.post("/fetchAndStoreEmails", mailController.fetchAndStoreEmails);
+router.get("/getReceivedMails", mailController.getReceivedMailsByUser);
+router.get("/getSentMails", mailController.getSentMails);
+router.get("/chat-context", mailController.getChatContext);
+module.exports = router;

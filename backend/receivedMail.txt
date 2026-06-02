@@ -1,0 +1,46 @@
+📨 ALL RECEIVED MAILS
+
+--- MAIL 2 ---
+Subject: Internship Opportunity at Amazon
+Date: Sat Oct 11 2025 10:42:43 GMT+0530 (India Standard Time)
+Tone: Positive
+Rating: 5
+Body: Eligible Branches: ECE, EE, MNC, CSE
+Minimum CGPA: 7.5
+Role: SDE
+Stipend: ₹1,50,000 per month
+
+Summary: The company is offering a Software Development Engineer (SDE) internship with a stipend of ₹1,50,000 per month. Eligible students from ECE, EE, MNC, and CSE branches with a minimum CGPA of 7.5 can apply for this role.
+Internship Info: {
+  "additional_notes": "Not mentioned",
+  "company_name": "Not mentioned",
+  "eligible_branches": "ECE, EE, MNC, CSE",
+  "minimum_cgpa": "7.5",
+  "position": "SDE",
+  "stipend": "₹1,50,000 per month"
+}
+Is Relevant: true
+------------------------------
+
+--- MAIL 4 ---
+Subject: Internship at Google
+Date: Sat Oct 11 2025 10:44:26 GMT+0530 (India Standard Time)
+Tone: Positive
+Rating: 5
+Body: Eligible Branches: CSE, IT
+Minimum CGPA: 8.0
+Role: Software Engineering Intern
+Stipend: ₹1,80,000 per month
+
+Summary: The company is offering a Software Engineering Intern role with a stipend of ₹1,80,000 per month. Eligible candidates are those from CSE and IT branches with a minimum CGPA of 8.0.
+Internship Info: {
+  "additional_notes": "Not mentioned",
+  "company_name": "Not mentioned",
+  "eligible_branches": "CSE, IT",
+  "minimum_cgpa": "8.0",
+  "position": "Software Engineering Intern",
+  "stipend": "₹1,80,000 per month"
+}
+Is Relevant: true
+------------------------------
+

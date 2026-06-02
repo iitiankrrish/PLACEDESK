@@ -1,0 +1,10 @@
+flask
+flask-cors
+groq
+langchain
+langchain-cohere
+langchain-community
+langchain-text-splitters
+python-dotenv
+requests
+pydantic
