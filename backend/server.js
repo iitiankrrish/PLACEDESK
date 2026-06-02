@@ -16,7 +16,7 @@ const httpServer = http.createServer(app);
 
 const allowedOrigins = [
   "http://localhost:5173",
-  "https://your-project-name.vercel.app",
+  "https://placedesk.vercel.app",
 ];
 
 app.use(
