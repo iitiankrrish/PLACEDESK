@@ -14,11 +14,13 @@ CORS(app)
 
 GROQ_KEY = os.getenv("GROQ_API_KEY")
 groq_client = Groq(api_key=GROQ_KEY)
-NODE_CONTEXT_URL = "http://localhost:8000/api/mailer/chat-context"
+
+NODE_BACKEND_URL = os.getenv("NODE_BACKEND_URL", "http://localhost:8000")
+NODE_CONTEXT_URL = f"{NODE_BACKEND_URL}/api/mailer/chat-context"
 
 def get_all_context_as_text():
     try:
-        res = requests.get(NODE_CONTEXT_URL, timeout=5)
+        res = requests.get(NODE_CONTEXT_URL, timeout=10)
         if res.status_code != 200: return "No placement data available."
         mails = res.json()
         if not mails: return "No placement data available."
@@ -126,4 +128,5 @@ def generate():
     except Exception as e: return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
-    app.run(port=10000)
+    port = int(os.environ.get("PORT", 10000))
+    app.run(host='0.0.0.0', port=port)
