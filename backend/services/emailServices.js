@@ -3,12 +3,6 @@ const dotenv = require('dotenv');
 dotenv.config();
 
 const emailService = {
-    /**
-     * Sends an email using the Brevo API (Bypasses Render SMTP blocks).
-     * @param {string} to - Recipient email address.
-     * @param {string} subject - Email subject.
-     * @param {string} htmlBody - HTML content of the email.
-     */
     sendMail: async (to, subject, htmlBody) => {
         try {
             console.log(`[Brevo] Attempting to dispatch email to: ${to}`);
@@ -18,11 +12,9 @@ const emailService = {
                 {
                     sender: { 
                         name: "IITR Placement Cell", 
-                        email: "krrishraj.iitr@gmail.com" // This MUST be your verified Brevo email
+                        email: "krrishraj.iitr@gmail.com" 
                     },
                     to: [{ email: to }],
-                    // IMPORTANT: This ensures that when the HR clicks "Reply", 
-                    // the mail goes to your Gmail where your listener is watching.
                     replyTo: { email: "krrishraj.iitr@gmail.com" },
                     subject: subject,
                     htmlContent: htmlBody,
@@ -35,13 +27,11 @@ const emailService = {
                 }
             );
 
-            console.log('[Brevo] Success! Message ID:', response.data.messageId);
-            
-            // Return an object containing the ID so the controller can save it
+            console.log('Success! Message ID:', response.data.messageId);
             return { messageId: response.data.messageId };
         } catch (error) {
             const errorMessage = error.response?.data?.message || error.message;
-            console.error('[Brevo] API Error:', errorMessage);
+            console.error('API Error:', errorMessage);
             throw new Error(`Email Dispatch Failed: ${errorMessage}`);
         }
     }
