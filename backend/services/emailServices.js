@@ -1,36 +1,30 @@
-const nodemailer = require('nodemailer');
+const { Resend } = require('resend');
 const dotenv = require('dotenv');
 dotenv.config();
 
-const transporter = nodemailer.createTransport({
-    host: process.env.EMAIL_HOST,        
-    port: parseInt(process.env.EMAIL_PORT || '587', 10), 
-    secure: process.env.EMAIL_SECURE === 'true', 
-    auth: {
-        user: process.env.EMAIL_USER,    
-        pass: process.env.EMAIL_PASS     
-    },
-    tls: {
-        rejectUnauthorized: false 
-    },
-    connectionTimeout: 10000,
-});
+const resend = new Resend(process.env.RESEND_API_KEY);
 
 const emailService = {
-    sendMail: async (to, subject, htmlBody, from = process.env.EMAIL_USER) => {
+    sendMail: async (to, subject, htmlBody) => {
         try {
-            const mailOptions = {
-                from: from,
-                to: to,
+            console.log(`[Resend] Attempting to send mail to: ${to}`);
+            
+            const { data, error } = await resend.emails.send({
+                from: 'PlaceDesk <onboarding@resend.dev>', // Keep this for the free tier
+                to: [to],
                 subject: subject,
-                html: htmlBody
-            };
-            const info = await transporter.sendMail(mailOptions);
-            console.log('Email sent: %s', info.messageId);
-            return info;
+                html: htmlBody,
+            });
+
+            if (error) {
+                throw new Error(error.message);
+            }
+
+            console.log('[Resend] Email sent successfully. ID:', data.id);
+            return { messageId: data.id };
         } catch (error) {
-            console.error('Error sending email:', error);
-            throw new Error(`Failed to send email to ${to}: ${error.message}`);
+            console.error('[Resend] Critical Error:', error.message);
+            throw new Error(`Email API Error: ${error.message}`);
         }
     }
 };
