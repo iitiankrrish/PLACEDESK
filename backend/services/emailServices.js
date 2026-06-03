@@ -1,30 +1,48 @@
-const { Resend } = require('resend');
+const axios = require('axios');
 const dotenv = require('dotenv');
 dotenv.config();
 
-const resend = new Resend(process.env.RESEND_API_KEY);
-
 const emailService = {
+    /**
+     * Sends an email using the Brevo API (Bypasses Render SMTP blocks).
+     * @param {string} to - Recipient email address.
+     * @param {string} subject - Email subject.
+     * @param {string} htmlBody - HTML content of the email.
+     */
     sendMail: async (to, subject, htmlBody) => {
         try {
-            console.log(`[Resend] Attempting to send mail to: ${to}`);
+            console.log(`[Brevo] Attempting to dispatch email to: ${to}`);
             
-            const { data, error } = await resend.emails.send({
-                from: 'PlaceDesk <onboarding@resend.dev>', // Keep this for the free tier
-                to: [to],
-                subject: subject,
-                html: htmlBody,
-            });
+            const response = await axios.post(
+                'https://api.brevo.com/v3/smtp/email',
+                {
+                    sender: { 
+                        name: "IITR Placement Cell", 
+                        email: "krrishraj.iitr@gmail.com" // This MUST be your verified Brevo email
+                    },
+                    to: [{ email: to }],
+                    // IMPORTANT: This ensures that when the HR clicks "Reply", 
+                    // the mail goes to your Gmail where your listener is watching.
+                    replyTo: { email: "krrishraj.iitr@gmail.com" },
+                    subject: subject,
+                    htmlContent: htmlBody,
+                },
+                {
+                    headers: {
+                        'api-key': process.env.BREVO_API_KEY,
+                        'Content-Type': 'application/json',
+                    },
+                }
+            );
 
-            if (error) {
-                throw new Error(error.message);
-            }
-
-            console.log('[Resend] Email sent successfully. ID:', data.id);
-            return { messageId: data.id };
+            console.log('[Brevo] Success! Message ID:', response.data.messageId);
+            
+            // Return an object containing the ID so the controller can save it
+            return { messageId: response.data.messageId };
         } catch (error) {
-            console.error('[Resend] Critical Error:', error.message);
-            throw new Error(`Email API Error: ${error.message}`);
+            const errorMessage = error.response?.data?.message || error.message;
+            console.error('[Brevo] API Error:', errorMessage);
+            throw new Error(`Email Dispatch Failed: ${errorMessage}`);
         }
     }
 };
