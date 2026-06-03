@@ -1,151 +1,119 @@
-# 💼 PLACEDESK
+# PLACEDESK
 
-## 🧩 Problem It Solves
+## Introduction and Vision
 
-The placement process in most colleges is still **manual, time-consuming, and unorganized**.  
-The **Placement and Internship Cell (PIC)** members have to:
+The management of campus placements and internships is a critical function within higher education institutions. However, the traditional workflow remains heavily dependent on manual, fragmented processes. The Placement Cell often faces administrative bottlenecks, including high-volume repetitive email drafting, inconsistent tracking of recruiter responses, and the arduous task of manual follow-ups. Simultaneously, students struggle with information asymmetry, often finding it difficult to access real-time, accurate data regarding visit schedules and eligibility criteria.
 
-- Draft and send **individual emails** to company HRs, inviting them for recruitment drives.  
-- Keep track of **which companies replied**, **who showed interest**, and **who didn’t respond**.  
-- Send **follow-up emails** manually to companies that haven’t replied.  
-- Communicate placement updates to students through **multiple channels** (WhatsApp, mail, notices, etc.), often leading to missed information and confusion.
-
-On the other hand, **students** face difficulties accessing authentic, up-to-date information about:
-
-- Upcoming company visits  
-- Eligibility criteria  
-- Internship and placement opportunities  
-- Application deadlines  
-
-All this results in:
-
-- ❌ Inefficient communication between the **PIC** and **students**  
-- ⏰ Delayed or missed opportunities due to lack of timely updates  
-- 🔁 Repetitive manual work for **PIC members**
+PlaceDesk was developed to modernize this infrastructure. The primary intent of this project is to create an intelligent, centralized hub that automates administrative communication and leverages large language models (LLMs) to transform unstructured email data into actionable institutional intelligence. By bridging the gap between recruiters, coordinators, and students, PlaceDesk ensures that no opportunity is lost to administrative delay.
 
 ---
 
-## 💡 PlaceDesk Solves These Problems By
+## Key Features
 
-- 🤖 **Automating HR communication** — The system sends placement invitation mails to companies automatically and organizes incoming responses.  
-- 🧠 **AI-powered email classification** — It classifies replies from HRs as **Positive**, **Negative**, or **Neutral**, saving time and effort.  
-- 🔔 **Follow-up reminders** — Automatically reminds HRs who haven’t responded, ensuring no potential recruiter is missed.  
-- 📊 **Centralized information system** — Both PIC members and students access all placement-related data in one place.  
-- 💬 **Chatbot for students** — Provides students with instant answers about companies, eligibility, and placement details through an AI chatbot interface.  
+### 1. AI-Driven Communication Engine
+PlaceDesk features a professional email composition interface where administrators can provide a brief prompt or specific keywords. The system utilizes the Llama-3.3-70B model to generate highly professional, context-aware recruitment invitations. This eliminates the time spent on drafting and ensures institutional standard of communication.
 
----
+### 2. Intelligent Sentiment Analysis and Categorization
+The system monitors the institutional inbox via IMAP. As replies are received, they are automatically processed by an AI analysis layer.
+- **Categorization:** Mails are classified as Positive (Interested/Confirmed), Negative (Declined), or Neutral (Inquiry).
+- **Deep Extraction:** The system identifies and stores specific data points such as stipend amounts, CGPA cutoffs, required technical skills, and tentative visit dates.
+- **Thread Tracking:** Utilizing unique message identifiers, the system links incoming replies to original outgoing threads, maintaining a clean history for every recruiter.
 
-### 🎯 In Essence
+### 3. Automated Follow-up Management
+To maximize recruiter engagement, the platform allows administrators to schedule automatic follow-ups. If a recruiter does not respond within a specified window, the system is designed to trigger reminders, ensuring the institution remains a priority for the hiring organization.
 
-> **PlaceDesk eliminates manual workload, enhances communication, and brings intelligence and automation to college placement management.**
-
-## 🧠 Tech Stack
-
-### **Frontend / UI**
-- React  
-- React DOM  
-- React Router DOM  
-- TailwindCSS  
-- Vite  
-- Axios (for API requests)  
-- Lucide React (icons)
-
-### **Backend**
-- Node.js  
-- Express.js  
-- MongoDB (database)  
-- Gmail API / SMTP / IMAP (for sending, receiving, and classifying HR mails)
-
-### **AI / Automation**
-- **Llama-3.3-70B-Versatile** via **Groq API** (email generation, sentiment analysis, summary generation)  
-- **LangChain** (RAG implementation for chatbot)  
-- **Cohere API** (chatbot responses and NLP tasks)  
-- **Python Libraries / Frameworks**:
-  - Flask & flask-cors (backend API for AI services)  
-  - PyTorch (model execution)  
-  - Transformers (language models)  
-  - Sentence-Transformers (embeddings)  
-  - FAISS (vector search for RAG)  
-  - HuggingFace Hub (model storage & retrieval)  
-  - Python-dotenv (environment variable management)
-
-### **TypeScript / Types**
-- @types/react  
-- @types/react-dom  
-
-### **Linting / Code Quality**
-- ESLint  
-- eslint-plugin-react-hooks  
-- eslint-plugin-react-refresh  
-
-### **Deployment**
-- Frontend: Vercel  
-- Backend & Python services: Render / Railway / AWS  
-
-### **Version Control**
-- Git & GitHub
-
-  ## ⚙️ Local Setup (Quick Start)
-
-Set up and run **PlaceDesk** locally in just a few steps 👇  
-
-### 🧩 Prerequisites
-Make sure your system has:
-- **Python (>=3.9)**  
-- **Node.js & npm**
+### 4. RAG-Powered Placement Chatbot
+PlaceDesk implements Retrieval-Augmented Generation (RAG) to provide a factual query system for students. The chatbot accesses the verified database of analyzed HR replies to answer student questions regarding:
+- Company visit dates.
+- Specific skill requirements (e.g., "Which companies require Python?").
+- Eligibility criteria and stipend details.
+This ensures students receive information derived directly from recruiter correspondence, eliminating misinformation.
 
 ---
 
-### Clone the Repository
+## Technical Architecture
+
+### Frontend
+- **Framework:** React.js with Vite
+- **Styling:** TailwindCSS
+- **Icons:** Lucide React
+- **State Management:** React Hooks (useCallback, useRef, useEffect)
+- **Client:** Axios for asynchronous API communication
+
+### Backend
+- **Runtime:** Node.js
+- **Framework:** Express.js
+- **Database:** MongoDB (Cloud Atlas)
+- **Messaging:** Brevo API (Transactional Email Dispatch)
+- **Inbound Processing:** Imap-simple and Mailparser
+
+### AI Service Layer (Python)
+- **Engine:** Flask API
+- **LLM Provider:** Groq Cloud (Llama-3.3-70B-Versatile)
+- **NLP Framework:** LangChain (Prompt Engineering and RAG logic)
+- **Environment:** Python 3.10+
+
+---
+
+## Local Setup and Installation
+
+### Prerequisites
+- Node.js (v18 or higher)
+- Python (v3.9 or higher)
+- MongoDB account (Local or Atlas)
+- Brevo API Key
+- Groq API Key
+
+### Repository Initialization
 ```bash
 git clone https://github.com/iitiankrrish/SyntaxError.git
 cd SyntaxError
 ```
-### Install Python Dependencies
-Navigate to the AI folder and install all required packages:
+
+### AI Service Setup
+Navigate to the AI directory and install dependencies:
 ```bash
-pip install -r ./core_ai/requirements.txt
-```
-### Install JavaScript Dependencies
-Install dependencies for both backend and frontend:
-### For backend
-```bash
-  cd backend
-  npm install
+cd python/core_ai
+pip install -r requirements.txt
+python3 app.py
 ```
 
-### For frontend
-
-```bash
-cd ../frontend
-npm install
-```
-## Run in terminal
-
-### Start the backend:
+### Backend Setup
+Install Node dependencies and initialize the server:
 ```bash
 cd backend
+npm install
 npm start
 ```
 
-### Start the frontend (in a new terminal):
-```bash 
+### Frontend Setup
+Install UI dependencies and launch the development environment:
+```bash
 cd frontend
+npm install
 npm run dev
 ```
 
-### Run the AI service (in a new terminal):
-```bash
-cd core_ai
-python app.py
-```
+---
 
-### Run the Segregator AI service (in a new terminal):
-```bash
-cd core_ai
-python emailSegregation.py
-```
+## Environment Configuration
 
-### Access the App
-[Frontend](http://localhost:5173)  
-[Backend](http://localhost:8000)
+To run this project, the following variables must be defined in your .env files:
+
+### Backend (.env)
+- **PORT:** 8000
+- **MONGO_URI:** Your MongoDB connection string
+- **JWT_SECRET:** Secure string for session management
+- **BREVO_API_KEY:** Your xkeysib API key
+- **EMAIL_USER:** Your verified sender email
+- **IMAP_USER:** Gmail address for receiving
+- **IMAP_PASS:** 16-character Gmail App Password
+- **AI_SERVICE_URL:** http://localhost:10000
+
+### Python (.env)
+- **GROQ_API_KEY:** Your Groq Cloud access key
+- **NODE_BACKEND_URL:** http://localhost:8000
+
+---
+### Demonstration Video 
+[Google Drive Link]()
